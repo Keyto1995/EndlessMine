@@ -43,9 +43,11 @@ E-mail: keyto1995@outlook.com
     </head>
     <body>
         <div id="mine-app">
-            <div style="position:absolute;z-index:10" >
-                x: <input type="text" name="chunkX" value="1" v-model.lazy.trim.number="chunkX"/>
-                y: <input type="text" name="chunkY" value="2" v-model.lazy.trim.number="chunkY"/>
+            <div class="well well-sm" style="position:absolute;z-index:10" >
+                <span>x: </span>
+                <input type="text" name="chunkX" value="1" v-model.lazy.trim.number="chunkX"/>
+                <span>y: </span>
+                <input type="text" name="chunkY" value="2" v-model.lazy.trim.number="chunkY"/>
                 <input type="button" value="刷新" v-on:click="reloadChunks"/>
             </div>
             <div id="draggable">
