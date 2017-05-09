@@ -48,7 +48,7 @@ E-mail: keyto1995@outlook.com
                 <input type="text" name="chunkX" value="1" v-model.lazy.trim.number="chunkX"/>
                 <span>y: </span>
                 <input type="text" name="chunkY" value="2" v-model.lazy.trim.number="chunkY"/>
-                <input type="button" value="刷新" v-on:click="reloadChunks"/>
+                <input type="button" value="GO"/>
             </div>
             <div id="draggable">
 
@@ -115,7 +115,7 @@ E-mail: keyto1995@outlook.com
             Vue.component("chunkTd", {
                 template: '\
                     <td v-bind:data-block-x="index0">\
-                        <img class="gameblockpic" v-bind:src="image" v-on:mousedown="click($event)"/>\
+                        <img class="gameblockpic" v-bind:src="image" v-on:mousedown="mousedown($event)"/>\
                     </td>\
                 ',
                 props: ["blockInfo", "index0"],
@@ -125,7 +125,7 @@ E-mail: keyto1995@outlook.com
                     }
                 },
                 methods: {
-                    click: function (event) {
+                    mousedown: function (event) {
                         doMousedown(event);
                     }
                 }
@@ -194,14 +194,11 @@ E-mail: keyto1995@outlook.com
                 },
                 created: function () {
                     eventHub.$on('updateBlock', this.updateBlock);
-                    eventHub.$on('reloadChunk', this.getChunk);
-
                 },
                 // 最好在组件销毁前
                 // 清除事件监听
                 beforeDestroy: function () {
                     eventHub.$off('updateBlock', this.updateBlock);
-                    eventHub.$off('reloadChunk', this.getChunk);
                 }
 
             });
@@ -210,11 +207,6 @@ E-mail: keyto1995@outlook.com
                 data: {
                     chunkX: 1,
                     chunkY: 2
-                },
-                methods: {
-                    reloadChunks: function () {
-                        eventHub.$emit('reloadChunk');
-                    }
                 },
                 computed: {
                     getChunkPointX0: function () {
@@ -248,8 +240,8 @@ E-mail: keyto1995@outlook.com
                 }
                 var blockX = $(event.target).closest("td").data("blockX");
                 var blockY = $(event.target).closest("tr").data("blockY");
-                var chunkX = $(event.target).closest("table").data("chunkX");
-                var chunkY = $(event.target).closest("table").data("chunkY");
+                var chunkX = $(event.target).closest("table")[0].dataset.chunkX;
+                var chunkY = $(event.target).closest("table")[0].dataset.chunkY;
                 doAction(chunkX, chunkY, blockX, blockY, mouseClick);
             }
             function doAction(chunkX, chunkY, blockX, blockY, mouseClick) {
