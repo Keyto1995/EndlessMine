@@ -18,7 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 E-mail: keyto1995@outlook.com
 -->
 <html lang="zh-CN" 
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -44,7 +45,8 @@ E-mail: keyto1995@outlook.com
         <h1>index</h1>
         <a href="login">loginPage</a><br/>
         <a href="signUp">signUpPage</a><br/>
-        <a href="game">gamePage</a>
+        <a href="game">gamePage</a><br/>
+        <a href="chat">chatPage</a>
 
         <form action="#" th:action="@{/logout}" method="post">
             <input type="submit" value="注销"/>

@@ -16,25 +16,26 @@
  *
  * E-mail: keyto1995@outlook.com
  */
-package keyto.endlessmine.webserver.controller;
-
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+package keyto.endlessmine.webserver.domain;
 
 /**
  *
  * @author Keyto
  */
-@Configuration
-public class QuickViewController extends WebMvcConfigurerAdapter {
+public class WorldMessage {
+    private String name;
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("").setViewName("index");
-        registry.addViewController("/index").setViewName("index");
-        registry.addViewController("/game").setViewName("game");
-        registry.addViewController("/chat").setViewName("chat");
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
     }
 
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 }

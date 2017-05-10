@@ -16,25 +16,30 @@
  *
  * E-mail: keyto1995@outlook.com
  */
-package keyto.endlessmine.webserver.controller;
+package keyto.endlessmine.webserver.websocket;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 /**
  *
  * @author Keyto
  */
 @Configuration
-public class QuickViewController extends WebMvcConfigurerAdapter {
+@EnableWebSocketMessageBroker
+public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("").setViewName("index");
-        registry.addViewController("/index").setViewName("index");
-        registry.addViewController("/game").setViewName("game");
-        registry.addViewController("/chat").setViewName("chat");
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/endpointWorld").withSockJS();
+    }
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.enableSimpleBroker("/topic");
     }
 
 }

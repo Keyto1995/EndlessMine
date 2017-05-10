@@ -18,23 +18,23 @@
  */
 package keyto.endlessmine.webserver.controller;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import keyto.endlessmine.webserver.domain.WorldMessage;
+import keyto.endlessmine.webserver.domain.WorldResponse;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author Keyto
  */
-@Configuration
-public class QuickViewController extends WebMvcConfigurerAdapter {
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("").setViewName("index");
-        registry.addViewController("/index").setViewName("index");
-        registry.addViewController("/game").setViewName("game");
-        registry.addViewController("/chat").setViewName("chat");
+@Controller
+public class WsController {
+    @MessageMapping("/welcome")
+    @SendTo("/topic/greetings")
+    public WorldResponse say(WorldMessage message) throws Exception {
+        Thread.sleep(3000);
+        return new WorldResponse("Welcome, " + message.getName() + "!");
     }
-
+    
 }

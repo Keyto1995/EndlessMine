@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
@@ -30,6 +31,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * @author Keyto
  */
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -46,9 +48,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/bootstrap/**").permitAll()
                 .antMatchers("/script/**").permitAll()
                 .antMatchers("/image/**").permitAll()
+                .antMatchers("/websocket/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/index").permitAll()
                 .antMatchers("/signUp").permitAll()
+                .antMatchers("/chat").permitAll()
+                .antMatchers("/endpoint*/**").permitAll()
                 .anyRequest().authenticated()
                 //.antMatchers("/resources/**", "/webjars/**", "/img/**").permitAll()
                 .and()

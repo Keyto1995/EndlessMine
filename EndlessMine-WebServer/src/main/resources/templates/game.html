@@ -18,7 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 E-mail: keyto1995@outlook.com
 -->
 <html lang="zh-CN" 
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -44,9 +45,9 @@ E-mail: keyto1995@outlook.com
     <body>
         <div id="mine-app">
             <div class="well well-sm" style="position:absolute;z-index:10" >
-                <span>x: </span>
+                <label>x: </label>
                 <input type="text" name="chunkX" value="1" v-model.lazy.trim.number="chunkX"/>
-                <span>y: </span>
+                <label>y: </label>
                 <input type="text" name="chunkY" value="2" v-model.lazy.trim.number="chunkY"/>
                 <input type="button" value="GO"/>
             </div>
