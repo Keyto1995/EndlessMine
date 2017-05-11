@@ -18,8 +18,10 @@
  */
 package keyto.endlessmine.webserver.controller;
 
+import java.security.Principal;
+import keyto.endlessmine.webserver.domain.WorldChatMessage;
 import keyto.endlessmine.webserver.domain.WorldMessage;
-import keyto.endlessmine.webserver.domain.WorldResponse;
+import keyto.endlessmine.webserver.domain.WorldChatResponse;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -30,11 +32,16 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class WsController {
+
     @MessageMapping("/welcome")
     @SendTo("/topic/greetings")
-    public WorldResponse say(WorldMessage message) throws Exception {
-        Thread.sleep(3000);
-        return new WorldResponse("Welcome, " + message.getName() + "!");
+    public WorldChatResponse welcome(Principal principal, WorldMessage message) {
+        return new WorldChatResponse(principal.getName() + ":" + "Welcome, " + message.getName() + "!");
     }
-    
+
+    @MessageMapping("/say")
+    @SendTo("/worldchat/say")
+    public WorldChatResponse say(Principal principal, WorldChatMessage message) {
+        return new WorldChatResponse(principal.getName() + ":" + message.getMessage());
+    }
 }

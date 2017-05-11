@@ -22,25 +22,20 @@ package keyto.endlessmine.webserver.domain;
  *
  * @author Keyto
  */
-public class WorldResponse {
+public class WorldChatMessage {
+    private String message;
 
-    private String responseMessage;
-
-    public WorldResponse(String responseMessage) {
-        this.responseMessage = responseMessage;
+    /**
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
     }
 
     /**
-     * @return the responseMessage
+     * @param message the message to set
      */
-    public String getResponseMessage() {
-        return responseMessage;
-    }
-
-    /**
-     * @param responseMessage the responseMessage to set
-     */
-    public void setResponseMessage(String responseMessage) {
-        this.responseMessage = responseMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

@@ -47,9 +47,10 @@ E-mail: keyto1995@outlook.com
             <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>  
         </div>  
         <div id="conversationDiv">  
-            <label>What is your name?</label><input type="text" id="name" />  
-            <button id="sendName" onclick="sendName();">Send</button>  
+            <input type="text" id="message" />  
+            <button id="sendMessage">Send</button>  
             <p id="response"></p>  
+            <textarea id="textareaValidate"></textarea>
         </div>  
 
 
@@ -65,6 +66,10 @@ E-mail: keyto1995@outlook.com
                     disconnect();
                 });
 
+                $("#sendMessage").click(function () {
+                    sendMessage();
+                });
+
                 var stompClient = null;
 
                 function setConnected(connected) {
@@ -76,20 +81,20 @@ E-mail: keyto1995@outlook.com
 
                 //this line.  
                 function connect() {
-                    var socket = new SockJS("/endpointWorld");
+                    var socket = new SockJS("/endpointWorldChat");
                     stompClient = Stomp.over(socket);
                     stompClient.connect({}, function (frame) {
                         setConnected(true);
                         console.log('Connected: ' + frame);
-                        stompClient.subscribe('/topic/greetings', function (greeting) {
-                            showGreeting(JSON.parse(greeting.body).responseMessage);
+                        stompClient.subscribe('/worldchat/say', function (greeting) {
+                            showMessage(JSON.parse(greeting.body).responseMessage);
                         });
                     });
                 }
 
-                function sendName() {
-                    var name = $("#name").val();
-                    stompClient.send("/welcome", {}, JSON.stringify({'name': name}));
+                function sendMessage() {
+                    var message = $("#message").val();
+                    stompClient.send("/say", {}, JSON.stringify({'message': message}));
                 }
 
                 function disconnect() {
@@ -101,9 +106,11 @@ E-mail: keyto1995@outlook.com
                 }
 
 
-                function showGreeting(message) {
+                function showMessage(message) {
                     var response = $("#response");
                     response.html(message);
+                    var str = $('#textareaValidate').val() + message + "\n";
+                    $('#textareaValidate').val(str);
                 }
         </script>  
     </body>
