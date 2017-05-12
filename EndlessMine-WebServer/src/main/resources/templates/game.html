@@ -108,8 +108,29 @@ E-mail: keyto1995@outlook.com
         <script src="../static/vue/vue.js" th:src="@{/vue/vue.min.js}"></script>
         <script src="../static/script/EndlessMineObj.js" th:src="@{/script/EndlessMineObj.js}"></script>
         <script src="../static/script/SecurityAjax.js" th:src="@{/script/SecurityAjax.js}"></script>
+        <script src="../static/websocket/stomp/stomp.js" th:src="@{/websocket/stomp/stomp.min.js}"></script>
+        <script src="../static/websocket/sockjs/sockjs.js" th:src="@{/websocket/sockjs/sockjs.min.js}"></script>
 
         <script type="text/javascript">
+            $(function () {
+                connect();
+                $("#draggable")
+                        .bind("contextmenu", function (event) {
+                            return false;
+                        })
+                        .css({"z - index": "-1"})
+                        .draggable({
+                            distance: 10,
+                            scroll: false,
+                            start: function () {
+                            },
+                            drag: function () {
+                            },
+                            stop: function (event) {
+                            }
+                        });
+            }
+            );
             // 将在各处使用该事件中心
             // 组件通过它来通信
             var eventHub = new Vue();
@@ -253,32 +274,26 @@ E-mail: keyto1995@outlook.com
                             "blockX": blockX,
                             "blockY": blockY,
                             "mouseButton": mouseClick
-                        },
-                        function (data, status) {
-                            for (var o in data) {
-                                eventHub.$emit('updateBlock', data[o]);
-                            }
-                        });
+                        }
+                );
             }
-        </script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $("#draggable")
-                        .bind("contextmenu", function (event) {
-                            return false;
-                        })
-                        .css({"z - index": "3"})
-                        .draggable({
-                            distance: 10,
-                            scroll: false,
-                            start: function () {
-                            },
-                            drag: function () {
-                            },
-                            stop: function (event) {
-                            }
-                        });
-            });
+
+            var stompGame = null;
+            function connect() {
+                var socket = new SockJS("/endpointGame");
+                stompGame = Stomp.over(socket);
+                stompGame.connect({}, function (frame) {
+                    console.log('Connected: ' + frame);
+                    stompGame.subscribe('/game/updateBlock', function (changedBlockMessage) {
+                        eventHub.$emit('updateBlock', JSON.parse(changedBlockMessage.body));
+                    });
+                });
+            }
+            function disconnect() {
+                if (stompGame !== null) {
+                    stompGame.disconnect();
+                }
+            }
 
         </script>
     </body>

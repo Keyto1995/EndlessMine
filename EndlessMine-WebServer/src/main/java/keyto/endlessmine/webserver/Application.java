@@ -18,8 +18,10 @@
  */
 package keyto.endlessmine.webserver;
 
+import keyto.endlessmine.gameserver.manager.BlockManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -29,6 +31,11 @@ import org.springframework.stereotype.Controller;
 @Controller
 @SpringBootApplication
 public class Application {
+
+    @Bean
+    public BlockManager blockManager() {
+        return new BlockManager();
+    }
     
     /**
      * @param args the command line arguments
