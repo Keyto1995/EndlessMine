@@ -44,12 +44,22 @@ E-mail: keyto1995@outlook.com
     </head>
     <body>
         <div id="mine-app">
-            <div class="well well-sm" style="position:absolute;z-index:10" >
-                <label>x: </label>
-                <input type="text" name="chunkX" value="1" v-model.lazy.trim.number="chunkX"/>
-                <label>y: </label>
-                <input type="text" name="chunkY" value="2" v-model.lazy.trim.number="chunkY"/>
-                <input type="button" value="GO"/>
+            <div class="fix-top">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="well well-sm">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon"><strong>x: </strong></span>
+                                <input type="text" class="form-control" name="chunkX" value="1" v-model.lazy.trim.number="chunkX"/>
+                                <span class="input-group-addon"><strong>y: </strong></span>
+                                <input type="text" class="form-control" name="chunkY" value="2" v-model.lazy.trim.number="chunkY"/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button"><strong>Go!</strong></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div id="draggable">
 
@@ -275,7 +285,9 @@ E-mail: keyto1995@outlook.com
                             "blockY": blockY,
                             "mouseButton": mouseClick
                         }
-                );
+                ).fail(function () {
+                    alert("连接出错，请刷新网页,检查连接！");
+                });
             }
 
             var stompGame = null;

@@ -33,7 +33,7 @@ E-mail: keyto1995@outlook.com
         <title>TODO supply a title</title>
         <!-- Bootstrap -->
         <link href="../static/bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
-
+        <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -42,17 +42,15 @@ E-mail: keyto1995@outlook.com
         <![endif]-->
     </head>
     <body>
-        <div>  
-            <button id="connect" onclick="connect();">Connect</button>  
-            <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>  
+        <div class="col-md-3 well well-sm">  
+            <div class="textarea" id="textareaValidate"></div>
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control" id="message"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" id="sendMessage" type="button"><strong>Send</strong></button>
+                </span>
+            </div>
         </div>  
-        <div id="conversationDiv">  
-            <input type="text" id="message" />  
-            <button id="sendMessage">Send</button>  
-            <p id="response"></p>  
-            <textarea id="textareaValidate"></textarea>
-        </div>  
-
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <!--<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>-->
@@ -62,55 +60,43 @@ E-mail: keyto1995@outlook.com
         <script src="../static/websocket/stomp/stomp.js" th:src="@{/websocket/stomp/stomp.min.js}"></script>
         <script src="../static/websocket/sockjs/sockjs.js" th:src="@{/websocket/sockjs/sockjs.min.js}"></script>
         <script type="text/javascript">
-                $(function () {
-                    disconnect();
-                });
+            $(function () {
+                connect();
+            });
 
-                $("#sendMessage").click(function () {
-                    sendMessage();
-                });
+            $("#sendMessage").click(function () {
+                sendMessage();
+            });
 
-                var stompClient = null;
+            var stompClient = null;
 
-                function setConnected(connected) {
-                    document.getElementById('connect').disabled = connected;
-                    document.getElementById('disconnect').disabled = !connected;
-                    document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
-                    $('response').html();
-                }
-
-                function connect() {
-                    var socket = new SockJS("/endpointWorldChat");
-                    stompClient = Stomp.over(socket);
-                    stompClient.connect({}, function (frame) {
-                        setConnected(true);
-                        console.log('Connected: ' + frame);
-                        stompClient.subscribe('/worldchat/say', function (greeting) {
-                            showMessage(JSON.parse(greeting.body).responseMessage);
-                        });
+            function connect() {
+                var socket = new SockJS("/endpointWorldChat");
+                stompClient = Stomp.over(socket);
+                stompClient.connect({}, function (frame) {
+                    console.log('Connected: ' + frame);
+                    stompClient.subscribe('/worldchat/say', function (greeting) {
+                        showMessage(JSON.parse(greeting.body).responseMessage);
                     });
-                }
+                });
+            }
 
-                function sendMessage() {
-                    var message = $("#message").val();
-                    stompClient.send("/say", {}, JSON.stringify({'message': message}));
-                }
+            function sendMessage() {
+                var message = $("#message").val();
+                stompClient.send("/say", {}, JSON.stringify({'message': message}));
+            }
 
-                function disconnect() {
-                    if (stompClient !== null) {
-                        stompClient.disconnect();
-                    }
-                    setConnected(false);
-                    console.log("Disconnected");
+            function disconnect() {
+                if (stompClient !== null) {
+                    stompClient.disconnect();
                 }
+                console.log("Disconnected");
+            }
 
 
-                function showMessage(message) {
-                    var response = $("#response");
-                    response.html(message);
-                    var str = $('#textareaValidate').val() + message + "\n";
-                    $('#textareaValidate').val(str);
-                }
+            function showMessage(message) {
+                var str = $('#textareaValidate').append("<span>" + message + "</span><br/>");
+            }
         </script>  
     </body>
 </html>
