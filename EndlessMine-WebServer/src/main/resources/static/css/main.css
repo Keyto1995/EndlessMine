@@ -25,3 +25,5 @@ E-mail: keyto1995@outlook.com
 */
 table {border:0;margin:0;border-collapse:collapse;border-spacing:0;}
 table td{padding:0;}
+
+.fix-top{z-index: 10; position: fixed;width:100%; top: 0px; left: 0px;}
