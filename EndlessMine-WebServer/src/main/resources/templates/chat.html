@@ -42,16 +42,17 @@ E-mail: keyto1995@outlook.com
         <![endif]-->
     </head>
     <body>
-        <div class="col-md-3 well well-sm">  
-            <div class="textarea" id="textareaValidate"></div>
-            <div class="input-group input-group-sm">
-                <input type="text" class="form-control" id="message"/>
-                <span class="input-group-btn">
-                    <button class="btn btn-default" id="sendMessage" type="button"><strong>Send</strong></button>
-                </span>
-            </div>
-        </div>  
-
+        <div class="fix-bottom">
+            <div class="col-md-3 well well-sm">  
+                <div class="textarea" id="textareaValidate"></div>
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" id="message"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" id="sendMessage" type="button"><strong>Send</strong></button>
+                    </span>
+                </div>
+            </div>  
+        </div>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <!--<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>-->
         <script src="../static/script/jquery-3.2.1.min.js" th:src="@{/script/jquery-3.2.1.min.js}"></script>
@@ -71,12 +72,15 @@ E-mail: keyto1995@outlook.com
             var stompClient = null;
 
             function connect() {
-                var socket = new SockJS("/endpointWorldChat");
+                var socket = new SockJS("/endpointGame");
                 stompClient = Stomp.over(socket);
                 stompClient.connect({}, function (frame) {
                     console.log('Connected: ' + frame);
                     stompClient.subscribe('/worldchat/say', function (greeting) {
-                        showMessage(JSON.parse(greeting.body).responseMessage);
+                        var json = JSON.parse(greeting.body);
+                        var name = json.name;
+                        var message = json.responseMessage;
+                        showMessage(name, message);
                     });
                 });
             }
@@ -94,8 +98,10 @@ E-mail: keyto1995@outlook.com
             }
 
 
-            function showMessage(message) {
-                var str = $('#textareaValidate').append("<span>" + message + "</span><br/>");
+            function showMessage(name, message) {
+                var node = $('#textareaValidate');
+                node.append("<span><strong>" + name + ":</strong>" + message + "</span><br/>");
+                node.scrollTop(node[0].scrollHeight);
             }
         </script>  
     </body>

@@ -109,6 +109,17 @@ E-mail: keyto1995@outlook.com
                 </table>
             </div>
         </div>
+        <div class="fix-bottom">
+            <div class="col-md-3 well well-sm">  
+                <div class="textarea" id="textareaValidate"></div>
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" id="message"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" id="sendMessage" type="button"><strong>Send</strong></button>
+                    </span>
+                </div>
+            </div>  
+        </div>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <!--<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>-->
         <script src="../static/script/jquery-3.2.1.min.js" th:src="@{/script/jquery-3.2.1.min.js}"></script>
@@ -139,8 +150,10 @@ E-mail: keyto1995@outlook.com
                             stop: function (event) {
                             }
                         });
-            }
-            );
+                $("#sendMessage").click(function () {
+                    sendMessage();
+                });
+            });
             // 将在各处使用该事件中心
             // 组件通过它来通信
             var eventHub = new Vue();
@@ -290,21 +303,38 @@ E-mail: keyto1995@outlook.com
                 });
             }
 
-            var stompGame = null;
+            var stompClient = null;
             function connect() {
                 var socket = new SockJS("/endpointGame");
-                stompGame = Stomp.over(socket);
-                stompGame.connect({}, function (frame) {
+                stompClient = Stomp.over(socket);
+                stompClient.connect({}, function (frame) {
                     console.log('Connected: ' + frame);
-                    stompGame.subscribe('/game/updateBlock', function (changedBlockMessage) {
+                    stompClient.subscribe('/game/updateBlock', function (changedBlockMessage) {
                         eventHub.$emit('updateBlock', JSON.parse(changedBlockMessage.body));
+                    });
+                    stompClient.subscribe('/worldchat/say', function (greeting) {
+                        var json = JSON.parse(greeting.body);
+                        var name = json.name;
+                        var message = json.responseMessage;
+                        showMessage(name, message);
                     });
                 });
             }
             function disconnect() {
-                if (stompGame !== null) {
-                    stompGame.disconnect();
+                if (stompClient !== null) {
+                    stompClient.disconnect();
                 }
+            }
+
+            function sendMessage() {
+                var message = $("#message").val();
+                stompClient.send("/say", {}, JSON.stringify({'message': message}));
+            }
+
+            function showMessage(name, message) {
+                var node = $('#textareaValidate');
+                node.append("<span><strong>" + name + ":</strong> " + message + "</span><br/>");
+                node.scrollTop(node[0].scrollHeight);
             }
 
         </script>

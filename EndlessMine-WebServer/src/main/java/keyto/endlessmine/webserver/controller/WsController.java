@@ -35,6 +35,6 @@ public class WsController {
     @MessageMapping("/say")
     @SendTo("/worldchat/say")
     public WorldChatResponse say(Principal principal, WorldChatMessage message) {
-        return new WorldChatResponse(principal.getName() + ":" + message.getMessage());
+        return new WorldChatResponse(principal.getName(), message.getMessage());
     }
 }
