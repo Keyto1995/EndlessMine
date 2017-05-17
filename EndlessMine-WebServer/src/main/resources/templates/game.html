@@ -255,22 +255,22 @@ E-mail: keyto1995@outlook.com
                 },
                 computed: {
                     getChunkPointX0: function () {
-                        return this.chunkX - 1;
+                        return (this.chunkX - 1) & -1;
                     },
                     getChunkPointX1: function () {
-                        return this.chunkX;
+                        return this.chunkX & -1;
                     },
                     getChunkPointX2: function () {
-                        return this.chunkX + 1;
+                        return (this.chunkX + 1) & -1;
                     },
                     getChunkPointY0: function () {
-                        return this.chunkY - 1;
+                        return (this.chunkY - 1) & -1;
                     },
                     getChunkPointY1: function () {
-                        return this.chunkY;
+                        return this.chunkY & -1;
                     },
                     getChunkPointY2: function () {
-                        return this.chunkY + 1;
+                        return (this.chunkY + 1) & -1;
                     }
                 }
             });
