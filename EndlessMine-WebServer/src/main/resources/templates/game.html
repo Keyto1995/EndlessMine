@@ -204,7 +204,7 @@ E-mail: keyto1995@outlook.com
                 },
                 methods: {
                     getChunk: function () {
-                        var url = "/game/demo_test_show_chunk";
+                        var url = "/game/getChunk";
                         var body = {
                             chunkPointX: this.chunkPointX,
                             chunkPointY: this.chunkPointY
@@ -290,7 +290,7 @@ E-mail: keyto1995@outlook.com
                 doAction(chunkX, chunkY, blockX, blockY, mouseClick);
             }
             function doAction(chunkX, chunkY, blockX, blockY, mouseClick) {
-                $.post("/game/demo_test_show",
+                $.post("/game/doAction",
                         {
                             "chunkPointX": chunkX,
                             "chunkPointY": chunkY,

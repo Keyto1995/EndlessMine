@@ -50,9 +50,9 @@ public class GameController {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    @RequestMapping("/demo_test_show")
+    @RequestMapping("/doAction")
     @ResponseBody
-    void demo_test_show(DoActionMessage doActiveMessage, HttpServletRequest request) {
+    void doAction(DoActionMessage doActiveMessage, HttpServletRequest request) {
         Player player = getPlayerFromSecurity(request);
         ChunkPoint chunkPoint = new ChunkPoint(doActiveMessage.getChunkPointX(), doActiveMessage.getChunkPointY());
         BlockPoint blockPoint = new BlockPoint(chunkPoint, doActiveMessage.getBlockX(), doActiveMessage.getBlockY());
@@ -70,9 +70,9 @@ public class GameController {
         return player;
     }
 
-    @RequestMapping("/demo_test_show_chunk")
+    @RequestMapping("/getChunk")
     @ResponseBody
-    IBlockInfo[][] demo_test_show_chunk(GetChunkMessage getChunkMessage) {
+    IBlockInfo[][] getChunk(GetChunkMessage getChunkMessage) {
         ChunkPoint chunkPoint = new ChunkPoint(getChunkMessage.getChunkPointX(), getChunkMessage.getChunkPointY());
 
         return blockManager.getEntireBlockInfosOfChunk(chunkPoint);
