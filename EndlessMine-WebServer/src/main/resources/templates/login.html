@@ -29,7 +29,7 @@ E-mail: keyto1995@outlook.com
         <meta name="_csrf" th:content="${_csrf.token}" content=""/>
         <!-- default header name is X-CSRF-TOKEN -->
         <meta name="_csrf_header" th:content="${_csrf.headerName}" content=""/>
-        
+
         <title>TODO supply a title</title>
         <!-- Bootstrap -->
         <link href="../static/bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
@@ -42,14 +42,41 @@ E-mail: keyto1995@outlook.com
         <![endif]-->
     </head>
     <body>
-        <p th:if="${param.logout}">已成功注销</p>
-        <p th:if="${param.error}">有错误，请重试</p>
+        <div th:if="${param.error}" class="alert alert-danger">
+            有错误，请重试!
+        </div>
+        <div th:if="${param.logout}" class="alert alert-info">
+            已成功注销!
+        </div>
 
-        <form action="#" th:action="@{/login}" method="post">
-            用户名：<input type="text" name="username"/><br/>
-            密码：  <input type="password" name="password"/><br/>
-            <input type="submit" value="submit"/>
-        </form>
+        <div id="loginModal" class="modal show">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="text-center text-primary">登录</h1>
+                    </div>
+                    <div class="modal-body">
+                        <form action="#" th:action="@{/login}" method="post" class="form col-md-12 center-block">
+                            <div class="form-group">
+                                <input type="text" class="form-control input-lg" name="username" placeholder="用户名">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control input-lg" name="password" placeholder="登录密码">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-lg btn-block" type="submit">立刻登录</button>
+                                <!--<span><a href="#">找回密码</a></span>-->
+                                <a href="signUp.html" th:href="@{/signUp}" class="btn btn-primary btn-sm btn-block">注册</a>
+                                <!--<span><a href="#" class="pull-right">注册</a></span>-->
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
