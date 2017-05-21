@@ -21,8 +21,8 @@ package keyto.endlessmine.webserver.controller;
 import javax.servlet.http.HttpServletRequest;
 import keyto.endlessmine.dbservice.entity.Player;
 import keyto.endlessmine.dbservice.service.PlayerService;
-import keyto.endlessmine.webserver.massage.MsgDoLogin;
-import keyto.endlessmine.webserver.massage.MsgSignUp;
+import keyto.endlessmine.webserver.domain.DoLoginMessage;
+import keyto.endlessmine.webserver.domain.SignUpMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -54,39 +54,37 @@ public class SignUpController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    ModelAndView signUp(MsgSignUp msgSignUp, HttpServletRequest request) {
-        System.out.println("signUp:" + msgSignUp);
-        if (msgSignUp.getName().equals("")
-                || msgSignUp.getName().matches("[@]")
-                || msgSignUp.getPassword().equals("")
-                || existsByName(msgSignUp.getName())
-                || existsByEmail(msgSignUp.getEmail())) {
+    ModelAndView signUp(SignUpMessage signUpMessage, HttpServletRequest request) {
+        System.out.println("signUp:" + signUpMessage);
+        if (signUpMessage.getName().equals("")
+                || signUpMessage.getName().matches("[@]")
+                || signUpMessage.getPassword().equals("")
+                || existsByName(signUpMessage.getName())
+                || signUpMessage.getEmail().equals("") ? false : existsByEmail(signUpMessage.getEmail())) {
             ModelAndView mv = new ModelAndView("signUp");
-            mv.addObject("name", msgSignUp.getName());
-            mv.addObject("email", msgSignUp.getEmail());
+            mv.addObject("name", signUpMessage.getName());
+            mv.addObject("email", signUpMessage.getEmail());
             return mv;
         }
         try {
-            Player player = new Player(null, msgSignUp.getName(), msgSignUp.getEmail(), msgSignUp.getPassword());
+            Player player = new Player(null, signUpMessage.getName(), signUpMessage.getEmail(), signUpMessage.getPassword());
             Player save = playerService.save(player);
-            MsgDoLogin msgDoLogin = new MsgDoLogin();
-            msgDoLogin.setUsername(msgSignUp.getName());
-            msgDoLogin.setPassword(msgSignUp.getPassword());
-            return loginAfterSignUp(msgDoLogin, request);
+            DoLoginMessage doLoginMessage = new DoLoginMessage();
+            doLoginMessage.setUsername(signUpMessage.getName());
+            doLoginMessage.setPassword(signUpMessage.getPassword());
+            return loginAfterSignUp(doLoginMessage, request);
         } catch (final Exception ex) {
             ex.printStackTrace();
             throw ex;
         }
     }
 
-    private ModelAndView loginAfterSignUp(MsgDoLogin msgDoLogin,
+    private ModelAndView loginAfterSignUp(DoLoginMessage doLoginMessage,
                                           HttpServletRequest request) {
         System.out.println("loginAfterSignUp");
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                msgDoLogin.getUsername(), msgDoLogin.getPassword());
-
-        //request.getSession();
+                doLoginMessage.getUsername(), doLoginMessage.getPassword());
         try {
             token.setDetails(new WebAuthenticationDetails(request));
             Authentication authenticatedUser = authenticationManager

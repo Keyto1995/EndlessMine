@@ -16,44 +16,29 @@
  *
  * E-mail: keyto1995@outlook.com
  */
-package keyto.endlessmine.webserver.massage;
+package keyto.endlessmine.webserver.domain;
 
 /**
  *
  * @author Keyto
  */
-public class MsgSignUp {
+public class DoLoginMessage {
 
-    private String name;
-    private String email;
+    private String username;
     private String password;
 
     /**
-     * @return the name
+     * @return the username
      */
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
     /**
-     * @param name the name to set
+     * @param username the username to set
      */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return the email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * @param email the email to set
-     */
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /**
@@ -73,8 +58,7 @@ public class MsgSignUp {
     @Override
     public String toString() {
         return super.toString()
-                + " [ name=" + name
-                + ",email=" + email
+                + " [ username=" + username
                 + ",password=" + password
                 + " ]";
     }
