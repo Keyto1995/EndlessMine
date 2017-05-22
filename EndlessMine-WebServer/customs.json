@@ -11,6 +11,7 @@
         "v-on:click": {},
         "th:unless": {},
         "th:src": {},
+        "th:replace": {},
         "th:href": {},
         "th:content": {
             "context": "meta"

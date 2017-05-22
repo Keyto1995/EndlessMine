@@ -30,7 +30,7 @@ E-mail: keyto1995@outlook.com
         <!-- default header name is X-CSRF-TOKEN -->
         <meta name="_csrf_header" th:content="${_csrf.headerName}" content=""/>
 
-        <title>index</title>
+        <title>TODO supply a title</title>
         <!-- Bootstrap -->
         <link href="../static/bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
         <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
@@ -42,29 +42,26 @@ E-mail: keyto1995@outlook.com
         <![endif]-->
     </head>
     <body>
-        <header th:replace="fragments :: header"></header>
-
-        <div class="container">
-            <h1 class="page-header">
-                扫雷
-            </h1>
-            <p>
-                扫雷是一款相当大众的小游戏，游戏目标是在最短的时间内根据点击格子
-                出现的数字找出所有非雷格子，同时避免踩雷。扫雷最初的流行伴随着1992年发布
-                的windows 3.1，之后迅速成为了各种操作系统中必不可少的一款游戏
-            </p>
-            <h2 class="page-header">游戏玩法</h2>
-            <p>
-                以windows XP自带扫雷winmine.exe为例（其它版本的扫雷游戏与之大同小异）。游戏区包括雷区、地雷计数器（位于左上角，记录剩余地雷数）和计时器（位于右上角，记录游戏时间），确定大小的矩形雷区中随机布置一定数量的地雷(初级为9*9个方块10个雷，中级为16*16个方块40个雷，高级为16*30个方块99个雷，自定义级别可以自己设定雷区大小和雷数，但是雷区大小不能超过24*30)，玩家需要尽快找出雷区中的所有不是地雷的方块，而不许踩到地雷。
-                游戏的基本操作包括左键单击（Left Click）、右键单击（Right Click）、双击（Chording）三种。其中左键用于打开安全的格子，推进游戏进度；右键用于标记地雷，以辅助判断，或为接下来的双击做准备；双击在一个数字周围的地雷标记完时，相当于对数字周围未打开的方块均进行一次左键单击操作：
-                左键单击：在判断出不是雷的方块上按下左键，可以打开该方块。如果方块上出现数字，则该数字表示其周围3×3区域中的地雷数（一般为8个格子，对于边块为5个格子，对于角块为3个格子。所以扫雷中最大的数字为8）；如果方块上为空（相当于0），则可以递归地打开与空相邻的方块；如果不幸触雷，则游戏结束。
-            </p>       
+        <div th:fragment="header">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="index.html" th:href="@{/index}">EndlessMine</a>
+                    </div>
+                    <div>
+                        <ul class="nav navbar-nav">
+                            <li><a href="login.html" th:href="@{/login}">Login</a></li>
+                            <li><a href="signUp.html" th:href="@{/signUp}">SignUp</a></li>
+                            <li><a href="game.html" th:href="@{/game}">Game</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
-        <!--        
-        <form action="#" th:action="@{/logout}" method="post">
-                    <input type="submit" value="注销"/>
-        </form>
-        -->
+
+        <div th:fragment="footer">
+            footer
+        </div>
 
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
