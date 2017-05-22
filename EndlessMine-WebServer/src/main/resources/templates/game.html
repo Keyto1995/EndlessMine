@@ -328,6 +328,7 @@ E-mail: keyto1995@outlook.com
 
             function sendMessage() {
                 var message = $("#message").val();
+                $("#message").val('');
                 stompClient.send("/say", {}, JSON.stringify({'message': message}));
             }
 

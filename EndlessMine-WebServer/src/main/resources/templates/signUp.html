@@ -41,7 +41,7 @@ E-mail: keyto1995@outlook.com
           <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body  style="background:#000; color:#FFF;">
+    <body class="background">
         <header th:replace="fragments :: header"></header>
 
         <div class="col-sm-6 col-sm-offset-3 form-box">
@@ -71,75 +71,40 @@ E-mail: keyto1995@outlook.com
             </div>
         </div>
 
-        <div id="signUpModal" class="modal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="text-center text-primary">注册</h1>
-                    </div>
-                    <div class="modal-body">
-                        <form action="#" th:action="@{/signUp}" method="post" class="form col-md-12 center-block" onsubmit="return checkSignUpMsg()">
-                            <div class="form-group">
-                                <input type="text" class="form-control input-lg" name="name" id="name" th:value="${name}" placeholder="用户名">
-                            </div>
-                            <div class="form-group">
-                                <input type="email" class="form-control input-lg" pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$" name="email" th:value="${email}" placeholder="邮箱">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control input-lg" name="password" id="password" placeholder="登录密码">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control input-lg" id="rpassword" placeholder="重复密码">
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-primary btn-lg btn-block" type="submit">立刻注册</button>
-                                <button class="btn btn-primary btn-lg btn-block" type="reset">重置</button>
-                                <a href="login.html" th:href="@{/login}" class="btn btn-primary btn-sm btn-block">登录</a>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <!--<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>-->
         <script src="../static/script/jquery-3.2.1.min.js" th:src="@{/script/jquery-3.2.1.min.js}"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="../static/bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
         <script type="text/javascript">
-                            function checkSignUpMsg() {
-                                if (!checkName()) {
-                                    return false;
-                                }
-                                if (!checkRepeat()) {
-                                    return false;
-                                }
-                                return true;
-                            }
+                    function checkSignUpMsg() {
+                        if (!checkName()) {
+                            return false;
+                        }
+                        if (!checkRepeat()) {
+                            return false;
+                        }
+                        return true;
+                    }
 
-                            function checkName() {
-                                var name = $("#name").val();
-                                if (name === '') {
-                                    alert("用户名不能为空!");
-                                    return false;
-                                }
-                                return true;
-                            }
+                    function checkName() {
+                        var name = $("#name").val();
+                        if (name === '') {
+                            alert("用户名不能为空!");
+                            return false;
+                        }
+                        return true;
+                    }
 
-                            function checkRepeat() {
-                                var password = $("#password").val();
-                                var rpassword = $("#rpassword").val();
-                                if (password !== rpassword) {
-                                    alert("两次输入密码不同！");
-                                    return false;
-                                }
-                                return true;
-                            }
+                    function checkRepeat() {
+                        var password = $("#password").val();
+                        var rpassword = $("#rpassword").val();
+                        if (password !== rpassword) {
+                            alert("两次输入密码不同！");
+                            return false;
+                        }
+                        return true;
+                    }
         </script>
     </body>
 </html>

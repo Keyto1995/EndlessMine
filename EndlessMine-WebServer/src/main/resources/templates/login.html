@@ -41,7 +41,7 @@ E-mail: keyto1995@outlook.com
           <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body>
+    <body class="background">
         <header th:replace="fragments :: header"></header>
 
         <div th:if="${param.error}" class="alert alert-danger">
@@ -72,36 +72,6 @@ E-mail: keyto1995@outlook.com
                 </form>
             </div>
         </div>
-
-        <div id="loginModal" class="modal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="text-center text-primary">登录</h1>
-                    </div>
-                    <div class="modal-body">
-                        <form action="#" th:action="@{/login}" method="post" class="form col-md-12 center-block">
-                            <div class="form-group">
-                                <input type="text" class="form-control input-lg" name="username" placeholder="用户名">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control input-lg" name="password" placeholder="登录密码">
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-primary btn-lg btn-block" type="submit">立刻登录</button>
-                                <!--<span><a href="#">找回密码</a></span>-->
-                                <a href="signUp.html" th:href="@{/signUp}" class="btn btn-primary btn-sm btn-block">注册</a>
-                                <!--<span><a href="#" class="pull-right">注册</a></span>-->
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <!--<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>-->
