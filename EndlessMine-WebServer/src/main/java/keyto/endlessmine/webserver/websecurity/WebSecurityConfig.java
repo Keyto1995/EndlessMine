@@ -46,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/bootstrap/**").permitAll()
+                .antMatchers("/css/**").permitAll()
                 .antMatchers("/script/**").permitAll()
                 .antMatchers("/image/**").permitAll()
                 .antMatchers("/websocket/**").permitAll()
