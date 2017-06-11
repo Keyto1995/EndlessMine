@@ -27,10 +27,6 @@ public class WorldChatResponse {
     private String name;
     private String responseMessage;
 
-    public WorldChatResponse(String responseMessage) {
-        this.responseMessage = responseMessage;
-    }
-
     public WorldChatResponse(String name, String responseMessage) {
         this.name = name;
         this.responseMessage = responseMessage;

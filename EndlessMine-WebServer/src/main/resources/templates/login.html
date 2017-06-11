@@ -30,7 +30,7 @@ E-mail: keyto1995@outlook.com
         <!-- default header name is X-CSRF-TOKEN -->
         <meta name="_csrf_header" th:content="${_csrf.headerName}" content=""/>
 
-        <title>login/title>
+        <title>login</title>
         <!-- Bootstrap -->
         <link href="../static/bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
         <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
@@ -44,10 +44,12 @@ E-mail: keyto1995@outlook.com
     <body class="background">
         <header th:replace="fragments :: header"></header>
 
-        <div th:if="${param.error}" class="alert alert-danger">
+        <div th:if="${param.error}" class="alert alert-danger alert-dismissible container" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             有错误，请重试!
         </div>
-        <div th:if="${param.logout}" class="alert alert-info">
+        <div th:if="${param.logout}" class="alert alert-info alert-dismissible container" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             已成功注销!
         </div>
 

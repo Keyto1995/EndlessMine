@@ -2,7 +2,11 @@
     "elements": {},
     "attributes": {
         "th:text": {},
+        "th:object": {},
         "v-model.lazy": {},
+        "aria-expanded": {
+            "context": "button"
+        },
         "th:action": {},
         "is": {},
         "th:fragment": {},

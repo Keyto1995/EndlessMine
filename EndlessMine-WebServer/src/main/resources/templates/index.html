@@ -45,6 +45,19 @@ E-mail: keyto1995@outlook.com
         <header th:replace="fragments :: header"></header>
 
         <div class="container">
+            <p th:if="${session.SPRING_SECURITY_CONTEXT}!=null" th:text="${session.SPRING_SECURITY_CONTEXT}"></p>
+            <div th:if="${session.SPRING_SECURITY_CONTEXT}!=null" th:object="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal()}" >
+
+                <p>Name: <span th:text=" *{name}" >Sebastian</span>. </p>
+
+                <p>score: <span th:text=" *{score}" >Pepper</span>. </p>
+
+                <p>email: <span th:text=" *{email}" >Saturn</span>. </p>
+
+            </div>
+
+           
+
             <h1 class="page-header">
                 扫雷
             </h1>
