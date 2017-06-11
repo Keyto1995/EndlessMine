@@ -21,6 +21,7 @@
             "context": "meta"
         },
         "v-model.lazy.trim.number": {},
-        "th:value": {}
+        "th:value": {},
+        "th:attr": {}
     }
 }

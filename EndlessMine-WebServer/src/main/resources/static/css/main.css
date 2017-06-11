@@ -91,3 +91,11 @@ table td{padding:0;}
     text-align: left;
 }
 
+@media(max-width:767px) { 
+    #langChange {
+        position: absolute;
+        top:0px;
+        right: 72px;
+    } 
+}
+

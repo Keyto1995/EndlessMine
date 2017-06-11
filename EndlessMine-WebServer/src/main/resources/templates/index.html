@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 E-mail: keyto1995@outlook.com
 -->
-<html lang="zh-CN" 
+<html lang="zh-CN"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
@@ -43,21 +43,9 @@ E-mail: keyto1995@outlook.com
     </head>
     <body>
         <header th:replace="fragments :: header"></header>
-
+        <a th:href="@{/language?language=en}">英文</a>
+        <a th:href="@{/language?language=zh_cn}">中文</a>
         <div class="container">
-            <p th:if="${session.SPRING_SECURITY_CONTEXT}!=null" th:text="${session.SPRING_SECURITY_CONTEXT}"></p>
-            <div th:if="${session.SPRING_SECURITY_CONTEXT}!=null" th:object="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal()}" >
-
-                <p>Name: <span th:text=" *{name}" >Sebastian</span>. </p>
-
-                <p>score: <span th:text=" *{score}" >Pepper</span>. </p>
-
-                <p>email: <span th:text=" *{email}" >Saturn</span>. </p>
-
-            </div>
-
-           
-
             <h1 class="page-header">
                 扫雷
             </h1>
@@ -82,11 +70,6 @@ E-mail: keyto1995@outlook.com
                 如果不幸触雷，会受到严厉惩罚！
             </p>       
         </div>
-        <!--        
-        <form action="#" th:action="@{/logout}" method="post">
-                    <input type="submit" value="注销"/>
-        </form>
-        -->
 
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

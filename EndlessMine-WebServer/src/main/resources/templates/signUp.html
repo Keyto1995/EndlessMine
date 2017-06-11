@@ -46,26 +46,26 @@ E-mail: keyto1995@outlook.com
 
         <div class="col-sm-6 col-sm-offset-3 form-box">
             <div class="form-top">
-                <h1 class="text-center text-primary">注册</h1>
+                <h1 class="text-center text-primary" th:text="#{signUp}">注册</h1>
             </div>
             <div class="form-bottom">
                 <form action="#" th:action="@{/signUp}" method="post" class="form" onsubmit="return checkSignUpMsg()">
                     <div class="form-group">
-                        <input type="text" class="form-control input-lg" name="name" id="name" th:value="${name}" placeholder="用户名">
+                        <input type="text" class="form-control input-lg" name="name" id="name" th:value="${name}" placeholder="用户名" th:attr="placeholder=#{name}"/>
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-control input-lg" name="email" th:value="${email}" placeholder="邮箱">
+                        <input type="email" class="form-control input-lg" name="email" th:value="${email}" placeholder="邮箱" th:attr="placeholder=#{email}"/>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control input-lg" name="password" id="password" placeholder="登录密码">
+                        <input type="password" class="form-control input-lg" name="password" id="password" placeholder="登录密码" th:attr="placeholder=#{password}"/>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control input-lg" id="rpassword" placeholder="重复密码">
+                        <input type="password" class="form-control input-lg" id="rpassword" placeholder="重复密码" th:attr="placeholder=#{rpassword}"/>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">立刻注册</button>
-                        <button class="btn btn-primary btn-lg btn-block" type="reset">重置</button>
-                        <a href="login.html" th:href="@{/login}" class="btn btn-primary btn-sm btn-block">登录</a>
+                        <input class="btn btn-primary btn-lg btn-block" type="submit" value="signUpNow" th:value="#{signUpNow}"/>
+                        <input class="btn btn-primary btn-lg btn-block" type="reset" value="reset" th:value="#{reset}"/>
+                        <a href="login.html" th:href="@{/login}" class="btn btn-primary btn-sm btn-block" th:text="#{login}">登录</a>
                     </div>
                 </form>
             </div>

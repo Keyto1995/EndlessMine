@@ -54,7 +54,7 @@ E-mail: keyto1995@outlook.com
                                 <span class="input-group-addon"><strong>y: </strong></span>
                                 <input type="text" class="form-control" name="chunkY" value="2" v-model.lazy.trim.number="chunkY"/>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="button"><strong>Go!</strong></button>
+                                    <button class="btn btn-primary" type="button"><strong th:text="#{go}">Go!</strong></button>
                                 </span>
                             </div>
                         </div>
@@ -113,9 +113,11 @@ E-mail: keyto1995@outlook.com
             <div class="col-md-3 well well-sm">  
                 <div class="textarea" id="textareaValidate"></div>
                 <div class="input-group input-group-sm">
-                    <input type="text" class="form-control" id="message"/>
+                    <input type="text" class="form-control" id="message" onkeyup=" if (event.keyCode === 13) {
+                                sendMessage();
+                            }"/>
                     <span class="input-group-btn">
-                        <button class="btn btn-primary" id="sendMessage" type="button"><strong>Send</strong></button>
+                        <button class="btn btn-primary" id="sendMessage" type="button"><strong th:text="#{send}">Send</strong></button>
                     </span>
                 </div>
             </div>  
@@ -133,50 +135,50 @@ E-mail: keyto1995@outlook.com
         <script src="../static/websocket/sockjs/sockjs.js" th:src="@{/websocket/sockjs/sockjs.min.js}"></script>
 
         <script type="text/javascript">
-            $(function () {
-                connect();
-                $("#draggable")
-                        .bind("contextmenu", function (event) {
-                            return false;
-                        })
-                        .css({"z - index": "-1"})
-                        .draggable({
-                            distance: 10,
-                            scroll: false,
-                            start: function () {
-                            },
-                            drag: function () {
-                            },
-                            stop: function (event) {
-                            }
+                        $(function () {
+                            connect();
+                            $("#draggable")
+                                    .bind("contextmenu", function (event) {
+                                        return false;
+                                    })
+                                    .css({"z - index": "-1"})
+                                    .draggable({
+                                        distance: 10,
+                                        scroll: false,
+                                        start: function () {
+                                        },
+                                        drag: function () {
+                                        },
+                                        stop: function (event) {
+                                        }
+                                    });
+                            $("#sendMessage").click(function () {
+                                sendMessage();
+                            });
                         });
-                $("#sendMessage").click(function () {
-                    sendMessage();
-                });
-            });
-            // 将在各处使用该事件中心
-            // 组件通过它来通信
-            var eventHub = new Vue();
-            Vue.component("chunkTd", {
-                template: '\
+                        // 将在各处使用该事件中心
+                        // 组件通过它来通信
+                        var eventHub = new Vue();
+                        Vue.component("chunkTd", {
+                            template: '\
                     <td v-bind:data-block-x="index0">\
                         <img class="gameblockpic" v-bind:src="image" v-on:mousedown="mousedown($event)"/>\
                     </td>\
                 ',
-                props: ["blockInfo", "index0"],
-                computed: {
-                    image: function () {
-                        return getPicByBlockInfo(this.blockInfo);
-                    }
-                },
-                methods: {
-                    mousedown: function (event) {
-                        doMousedown(event);
-                    }
-                }
-            });
-            Vue.component("chunkTr", {
-                template: '\
+                            props: ["blockInfo", "index0"],
+                            computed: {
+                                image: function () {
+                                    return getPicByBlockInfo(this.blockInfo);
+                                }
+                            },
+                            methods: {
+                                mousedown: function (event) {
+                                    doMousedown(event);
+                                }
+                            }
+                        });
+                        Vue.component("chunkTr", {
+                            template: '\
                     <tr v-bind:data-block-y="index1">\
                         <chunk-td \
                             v-for="(td,index0) in tds"\
@@ -186,10 +188,10 @@ E-mail: keyto1995@outlook.com
                         />\
                     </tr>\
                     ',
-                props: ["tds", "index1"]
-            });
-            Vue.component("aChunk", {
-                template: '\
+                            props: ["tds", "index1"]
+                        });
+                        Vue.component("aChunk", {
+                            template: '\
                     <table v-bind:data-chunk-x="chunkPointX" v-bind:data-chunk-y="chunkPointY">\
                         <tr is="chunk-tr"\
                             v-for="(tds,index1) in chunk"\
@@ -198,145 +200,145 @@ E-mail: keyto1995@outlook.com
                             ></tr>\
                     </table>\
                     ',
-                props: ["chunkPointX", "chunkPointY"],
-                data: function () {
-                    return {chunk: ""};
-                },
-                methods: {
-                    getChunk: function () {
-                        var url = "/game/getChunk";
-                        var body = {
-                            chunkPointX: this.chunkPointX,
-                            chunkPointY: this.chunkPointY
-                        };
-                        var _self = this;
-                        $.getJSON(url, body, function (data) {
-                            _self.chunk = data;
+                            props: ["chunkPointX", "chunkPointY"],
+                            data: function () {
+                                return {chunk: ""};
+                            },
+                            methods: {
+                                getChunk: function () {
+                                    var url = "/game/getChunk";
+                                    var body = {
+                                        chunkPointX: this.chunkPointX,
+                                        chunkPointY: this.chunkPointY
+                                    };
+                                    var _self = this;
+                                    $.getJSON(url, body, function (data) {
+                                        _self.chunk = data;
+                                    });
+                                },
+                                updateBlock: function (json_block) {
+                                    var block = new Block(json_block);
+                                    var chunkX = block.blockPoint.chunkPoint.x;
+                                    var chunkY = block.blockPoint.chunkPoint.y;
+                                    if (chunkX === this.chunkPointX && chunkY === this.chunkPointY) {
+                                        var blockX = block.blockPoint.blockIndex.x;
+                                        var blockY = block.blockPoint.blockIndex.y;
+                                        var blockInfo = block.blockInfo;
+                                        this.chunk[blockY].splice(blockX, 1, blockInfo);
+                                    }
+                                }
+                            },
+                            watch: {
+                                chunkPointX: function () {
+                                    this.getChunk();
+                                },
+                                chunkPointY: function () {
+                                    this.getChunk();
+                                }
+                            },
+                            mounted: function () {
+                                this.getChunk();
+                            },
+                            created: function () {
+                                eventHub.$on('updateBlock', this.updateBlock);
+                            },
+                            // 最好在组件销毁前
+                            // 清除事件监听
+                            beforeDestroy: function () {
+                                eventHub.$off('updateBlock', this.updateBlock);
+                            }
+
                         });
-                    },
-                    updateBlock: function (json_block) {
-                        var block = new Block(json_block);
-                        var chunkX = block.blockPoint.chunkPoint.x;
-                        var chunkY = block.blockPoint.chunkPoint.y;
-                        if (chunkX === this.chunkPointX && chunkY === this.chunkPointY) {
-                            var blockX = block.blockPoint.blockIndex.x;
-                            var blockY = block.blockPoint.blockIndex.y;
-                            var blockInfo = block.blockInfo;
-                            this.chunk[blockY].splice(blockX, 1, blockInfo);
+                        var vm = new Vue({
+                            el: '#mine-app',
+                            data: {
+                                chunkX: 1,
+                                chunkY: 2
+                            },
+                            computed: {
+                                getChunkPointX0: function () {
+                                    return (this.chunkX - 1) & -1;
+                                },
+                                getChunkPointX1: function () {
+                                    return this.chunkX & -1;
+                                },
+                                getChunkPointX2: function () {
+                                    return (this.chunkX + 1) & -1;
+                                },
+                                getChunkPointY0: function () {
+                                    return (this.chunkY - 1) & -1;
+                                },
+                                getChunkPointY1: function () {
+                                    return this.chunkY & -1;
+                                },
+                                getChunkPointY2: function () {
+                                    return (this.chunkY + 1) & -1;
+                                }
+                            }
+                        });
+                        function doMousedown(event) {
+                            var mouseClick;
+                            if (3 === event.which) {//右键为3
+                                mouseClick = MouseButton.SECONDARY;
+                            } else if (1 === event.which) {//左键为1
+                                mouseClick = MouseButton.PRIMARY;
+                            } else {
+                                return false;
+                            }
+                            var blockX = $(event.target).closest("td").data("blockX");
+                            var blockY = $(event.target).closest("tr").data("blockY");
+                            var chunkX = $(event.target).closest("table")[0].dataset.chunkX;
+                            var chunkY = $(event.target).closest("table")[0].dataset.chunkY;
+                            doAction(chunkX, chunkY, blockX, blockY, mouseClick);
                         }
-                    }
-                },
-                watch: {
-                    chunkPointX: function () {
-                        this.getChunk();
-                    },
-                    chunkPointY: function () {
-                        this.getChunk();
-                    }
-                },
-                mounted: function () {
-                    this.getChunk();
-                },
-                created: function () {
-                    eventHub.$on('updateBlock', this.updateBlock);
-                },
-                // 最好在组件销毁前
-                // 清除事件监听
-                beforeDestroy: function () {
-                    eventHub.$off('updateBlock', this.updateBlock);
-                }
-
-            });
-            var vm = new Vue({
-                el: '#mine-app',
-                data: {
-                    chunkX: 1,
-                    chunkY: 2
-                },
-                computed: {
-                    getChunkPointX0: function () {
-                        return (this.chunkX - 1) & -1;
-                    },
-                    getChunkPointX1: function () {
-                        return this.chunkX & -1;
-                    },
-                    getChunkPointX2: function () {
-                        return (this.chunkX + 1) & -1;
-                    },
-                    getChunkPointY0: function () {
-                        return (this.chunkY - 1) & -1;
-                    },
-                    getChunkPointY1: function () {
-                        return this.chunkY & -1;
-                    },
-                    getChunkPointY2: function () {
-                        return (this.chunkY + 1) & -1;
-                    }
-                }
-            });
-            function doMousedown(event) {
-                var mouseClick;
-                if (3 === event.which) {//右键为3
-                    mouseClick = MouseButton.SECONDARY;
-                } else if (1 === event.which) {//左键为1
-                    mouseClick = MouseButton.PRIMARY;
-                } else {
-                    return false;
-                }
-                var blockX = $(event.target).closest("td").data("blockX");
-                var blockY = $(event.target).closest("tr").data("blockY");
-                var chunkX = $(event.target).closest("table")[0].dataset.chunkX;
-                var chunkY = $(event.target).closest("table")[0].dataset.chunkY;
-                doAction(chunkX, chunkY, blockX, blockY, mouseClick);
-            }
-            function doAction(chunkX, chunkY, blockX, blockY, mouseClick) {
-                $.post("/game/doAction",
-                        {
-                            "chunkPointX": chunkX,
-                            "chunkPointY": chunkY,
-                            "blockX": blockX,
-                            "blockY": blockY,
-                            "mouseButton": mouseClick
+                        function doAction(chunkX, chunkY, blockX, blockY, mouseClick) {
+                            $.post("/game/doAction",
+                                    {
+                                        "chunkPointX": chunkX,
+                                        "chunkPointY": chunkY,
+                                        "blockX": blockX,
+                                        "blockY": blockY,
+                                        "mouseButton": mouseClick
+                                    }
+                            ).fail(function () {
+                                alert("连接出错，请刷新网页,检查连接！");
+                            });
                         }
-                ).fail(function () {
-                    alert("连接出错，请刷新网页,检查连接！");
-                });
-            }
 
-            var stompClient = null;
-            function connect() {
-                var socket = new SockJS("/endpointGame");
-                stompClient = Stomp.over(socket);
-                stompClient.connect({}, function (frame) {
-                    console.log('Connected: ' + frame);
-                    stompClient.subscribe('/game/updateBlock', function (changedBlockMessage) {
-                        eventHub.$emit('updateBlock', JSON.parse(changedBlockMessage.body));
-                    });
-                    stompClient.subscribe('/worldchat/say', function (greeting) {
-                        var json = JSON.parse(greeting.body);
-                        var name = json.name;
-                        var message = json.responseMessage;
-                        showMessage(name, message);
-                    });
-                });
-            }
-            function disconnect() {
-                if (stompClient !== null) {
-                    stompClient.disconnect();
-                }
-            }
+                        var stompClient = null;
+                        function connect() {
+                            var socket = new SockJS("/endpointGame");
+                            stompClient = Stomp.over(socket);
+                            stompClient.connect({}, function (frame) {
+                                console.log('Connected: ' + frame);
+                                stompClient.subscribe('/game/updateBlock', function (changedBlockMessage) {
+                                    eventHub.$emit('updateBlock', JSON.parse(changedBlockMessage.body));
+                                });
+                                stompClient.subscribe('/worldchat/say', function (greeting) {
+                                    var json = JSON.parse(greeting.body);
+                                    var name = json.name;
+                                    var message = json.responseMessage;
+                                    showMessage(name, message);
+                                });
+                            });
+                        }
+                        function disconnect() {
+                            if (stompClient !== null) {
+                                stompClient.disconnect();
+                            }
+                        }
 
-            function sendMessage() {
-                var message = $("#message").val();
-                $("#message").val('');
-                stompClient.send("/say", {}, JSON.stringify({'message': message}));
-            }
+                        function sendMessage() {
+                            var message = $("#message").val();
+                            $("#message").val('');
+                            stompClient.send("/say", {}, JSON.stringify({'message': message}));
+                        }
 
-            function showMessage(name, message) {
-                var node = $('#textareaValidate');
-                node.append("<span><strong>" + name + ":</strong> " + message + "</span><br/>");
-                node.scrollTop(node[0].scrollHeight);
-            }
+                        function showMessage(name, message) {
+                            var node = $('#textareaValidate');
+                            node.append("<span><strong>" + name + ":</strong> " + message + "</span><br/>");
+                            node.scrollTop(node[0].scrollHeight);
+                        }
 
         </script>
     </body>

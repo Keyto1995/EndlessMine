@@ -46,27 +46,44 @@ E-mail: keyto1995@outlook.com
             <nav class="navbar navbar-default" role="navigation">
                 <div class="container">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="index.html" th:href="@{/index}">EndlessMine</a>
+                        <a class="navbar-brand" href="index.html" th:href="@{/index}" th:text="#{endlessMine}">EndlessMine</a>
                     </div>
                     <div>
                         <ul class="nav navbar-nav">
-                            <li><a href="login.html" th:href="@{/login}">Login</a></li>
-                            <li><a href="signUp.html" th:href="@{/signUp}">SignUp</a></li>
-                            <li><a href="game.html" th:href="@{/game}">Game</a></li>
+                            <li><a href="login.html" th:href="@{/login}" th:text="#{login}">Login</a></li>
+                            <li><a href="signUp.html" th:href="@{/signUp}" th:text="#{signUp}">SignUp</a></li>
+                            <li><a href="game.html" th:href="@{/game}" th:text="#{game}">Game</a></li>
+                            <li>
+                                <div class="dropdown navbar-text">
+                                    <p class="dropdown-toggle navbar-link" th:text="#{language}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></p>
+                                    <ul class="dropdown-menu">
+                                        <li><a value="中文" th:href="@{/language?language=zh_cn}">中文</a></li>
+                                        <li><a value="English" th:href="@{/language?language=en}">English</a></li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </div>
-                    <div class="dropdown navbar-text pull-right">
-                        
-                            <p class="dropdown-toggle navbar-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></p>
-           
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
-
+                    <div th:if="${session.SPRING_SECURITY_CONTEXT}" th:object="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal()}">
+                        <div class="dropdown navbar-text pull-right">
+                            <p class="dropdown-toggle navbar-link" th:text="*{name}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></p>
+                            <ul class="dropdown-menu">
+                                <li><a th:text="|#{name}: *{name}|"></a></li>
+<!--                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>-->
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    <form action="#" th:action="@{/logout}" method="post">
+                                        <input type="submit" class="btn btn-default col-xs-10 col-xs-offset-1" value="注销" th:value="#{logout}"/>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div th:unless="${session.SPRING_SECURITY_CONTEXT}">
+                        <div class="dropdown navbar-text pull-right">
+                            <a class="dropdown-toggle" th:text="#{notLogin}" href="login.html" th:href="@{/login}">notLogin</a>
+                        </div>
                     </div>
                 </div>
             </nav>
