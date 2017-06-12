@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 Keyto
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+E-mail: keyto1995@outlook.com
+-->
+<html lang="zh-CN" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <!-- csrf 支持 -->
+        <meta name="_csrf" th:content="${_csrf.token}" content=""/>
+        <!-- default header name is X-CSRF-TOKEN -->
+        <meta name="_csrf_header" th:content="${_csrf.headerName}" content=""/>
+
+        <title th:text="#{charts}">charts</title>
+        <!-- Bootstrap -->
+        <link href="../static/bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+          <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <header th:replace="fragments :: header"></header>
+        <div>TODO write content</div>
+
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <!--<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>-->
+        <script src="../static/script/jquery-3.2.1.min.js" th:src="@{/script/jquery-3.2.1.min.js}"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="../static/bootstrap/js/bootstrap.min.js" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+        <script type="text/javascript">
+
+        </script>
+    </body>
+</html>

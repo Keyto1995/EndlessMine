@@ -71,6 +71,11 @@ public class PlayerService implements UserDetailsService {
         return existsByEmail;
     }
 
+    public int updateScoreById(long id, long score) {
+        int updateScoreById = playerRepository.updateScoreById(id, score);
+        return updateScoreById;
+    }
+
     @Override
 //    @Cacheable(value = "player", key = "#player.name")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

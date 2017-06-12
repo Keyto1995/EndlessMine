@@ -10,6 +10,7 @@
         "th:action": {},
         "is": {},
         "th:fragment": {},
+        "th:utext": {},
         "v-model": {},
         "th:if": {},
         "v-on:click": {},

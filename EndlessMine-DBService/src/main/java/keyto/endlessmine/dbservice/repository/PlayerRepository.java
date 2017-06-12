@@ -20,8 +20,10 @@ package keyto.endlessmine.dbservice.repository;
 
 import keyto.endlessmine.dbservice.entity.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -50,4 +52,9 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
      */
     @Query("SELECT CASE WHEN COUNT(u) > 0 THEN 'true' ELSE 'false' END FROM UserInfo u WHERE u.email = :email")
     public Boolean existsByEmail(@Param("email") String email);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Player p SET p.score = :score WHERE p.id = :id")
+    int updateScoreById(@Param("id") long id, @Param("score") long score);
 }

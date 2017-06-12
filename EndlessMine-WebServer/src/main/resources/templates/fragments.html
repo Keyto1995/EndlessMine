@@ -53,6 +53,7 @@ E-mail: keyto1995@outlook.com
                             <li><a href="login.html" th:href="@{/login}" th:text="#{login}">Login</a></li>
                             <li><a href="signUp.html" th:href="@{/signUp}" th:text="#{signUp}">SignUp</a></li>
                             <li><a href="game.html" th:href="@{/game}" th:text="#{game}">Game</a></li>
+                            <li><a href="charts.html" th:href="@{/charts}" th:text="#{charts}">Charts</a></li>
                             <li>
                                 <div class="dropdown navbar-text">
                                     <p class="dropdown-toggle navbar-link" th:text="#{language}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></p>
@@ -69,6 +70,7 @@ E-mail: keyto1995@outlook.com
                             <p class="dropdown-toggle navbar-link" th:text="*{name}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></p>
                             <ul class="dropdown-menu">
                                 <li><a th:text="|#{name}: *{name}|"></a></li>
+                                <li><a th:text="|#{score}: *{score}|"></a></li>
 <!--                                <li><a href="#">Another action</a></li>
                                 <li><a href="#">Something else here</a></li>-->
                                 <li role="separator" class="divider"></li>

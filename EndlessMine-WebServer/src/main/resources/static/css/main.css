@@ -34,6 +34,7 @@ table {border:0;margin:0;border-collapse:collapse;border-spacing:0;}
 table td{padding:0;}
 
 .fix-top{z-index: 10; position: fixed; width:100%; top: 0px; left: 0px;}
+.fix-top-right{z-index: 10; position: fixed; top: 0px; right: 0px;}
 .fix-bottom{z-index: 10; position: fixed; width:100%; bottom: 0px; left: 0px;}
 
 .textarea{
@@ -92,10 +93,10 @@ table td{padding:0;}
 }
 
 @media(max-width:767px) { 
-    #langChange {
+    .absolute-right {
         position: absolute;
         top:0px;
-        right: 72px;
+        right: 80px;
     } 
 }
 

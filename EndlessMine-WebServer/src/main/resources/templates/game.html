@@ -43,26 +43,51 @@ E-mail: keyto1995@outlook.com
         <![endif]-->
     </head>
     <body>
+
         <div id="mine-app">
-            <div class="fix-top">
-                <div class="row">
-                    <div class="col-md-4 col-sm-6">
-                        <div class="well well-sm">
-                            <div class="input-group input-group-sm">
-                                <span class="input-group-addon"><strong>x: </strong></span>
-                                <input type="text" class="form-control" name="chunkX" value="1" v-model.lazy.trim.number="chunkX"/>
-                                <span class="input-group-addon"><strong>y: </strong></span>
-                                <input type="text" class="form-control" name="chunkY" value="2" v-model.lazy.trim.number="chunkY"/>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="button"><strong th:text="#{go}">Go!</strong></button>
-                                </span>
-                            </div>
+            <div class="navbar-fixed-top">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#" th:href="@{/index}" th:text="#{endlessMine}">EndlessMine</a>
                         </div>
-                    </div>
-                </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                            <ul class="nav navbar-nav navbar-left">
+                                <li style="width: 300px;margin-top: 10px">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-addon"><strong>x: </strong></span>
+                                        <input type="text" class="form-control" name="chunkX" value="1" v-model.lazy.trim.number="chunkX"/>
+                                        <span class="input-group-addon"><strong>y: </strong></span>
+                                        <input type="text" class="form-control" name="chunkY" value="2" v-model.lazy.trim.number="chunkY"/>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" type="button"><strong th:text="#{go}">Go!</strong></button>
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li>
+                                    <p class="navbar-text" style="font-size:18px" th:object="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal()}">
+                                        <span th:text="*{name}">用户名</span>
+                                        <span th:utext="|#{score}: <strong id='scoreShower'> *{score}</strong>|">得分：100</span>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+                    </div><!-- /.container-fluid -->
+                </nav>
             </div>
             <div id="draggable">
-
                 <table>
                     <tr>
                         <td><div is="a-chunk"
@@ -299,9 +324,12 @@ E-mail: keyto1995@outlook.com
                                         "blockX": blockX,
                                         "blockY": blockY,
                                         "mouseButton": mouseClick
+                                    },
+                                    function (score) {
+                                        $("#scoreShower").text(score);
                                     }
                             ).fail(function () {
-                                alert("连接出错，请刷新网页,检查连接！");
+                                alert("连接出错，请刷新网页！");
                             });
                         }
 

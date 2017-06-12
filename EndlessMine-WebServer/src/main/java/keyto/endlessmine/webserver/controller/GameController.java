@@ -26,6 +26,7 @@ import keyto.endlessmine.common.coordinate_system.impl.BlockPoint;
 import keyto.endlessmine.common.coordinate_system.impl.ChunkPoint;
 import keyto.endlessmine.common.mouse.MouseButton;
 import keyto.endlessmine.dbservice.entity.Player;
+import keyto.endlessmine.dbservice.service.PlayerService;
 import keyto.endlessmine.gameserver.manager.BlockManager;
 import keyto.endlessmine.webserver.domain.DoActionMessage;
 import keyto.endlessmine.webserver.domain.GetChunkMessage;
@@ -48,19 +49,38 @@ public class GameController {
     BlockManager blockManager;
 
     @Autowired
+    PlayerService playerService;
+
+    @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
     @RequestMapping("/doAction")
     @ResponseBody
-    void doAction(DoActionMessage doActiveMessage, HttpServletRequest request) {
+    long doAction(DoActionMessage doActionMessage, HttpServletRequest request) {
         Player player = getPlayerFromSecurity(request);
-        ChunkPoint chunkPoint = new ChunkPoint(doActiveMessage.getChunkPointX(), doActiveMessage.getChunkPointY());
-        BlockPoint blockPoint = new BlockPoint(chunkPoint, doActiveMessage.getBlockX(), doActiveMessage.getBlockY());
-        MouseButton mouseButton = MouseButton.valueOf(doActiveMessage.getMouseButton());
+        ChunkPoint chunkPoint = new ChunkPoint(doActionMessage.getChunkPointX(), doActionMessage.getChunkPointY());
+        BlockPoint blockPoint = new BlockPoint(chunkPoint, doActionMessage.getBlockX(), doActionMessage.getBlockY());
+        MouseButton mouseButton = MouseButton.valueOf(doActionMessage.getMouseButton());
         List<IBlock> doActionResult = blockManager.doAction(blockPoint, mouseButton, player.getId());
+        //TODO:计分功能
+        int resultSize = doActionResult.size();
+        if (resultSize > 0) {
+            IBlock ib = doActionResult.get(0);
+            if (mouseButton == MouseButton.PRIMARY) {
+                if (ib.getBlockInfo().isBomb()) {
+                    updateScore(player, -5);
+                }
+            } else if (ib.getBlockInfo().isBomb()) {
+                updateScore(player, 1);
+            } else {
+                updateScore(player, -2);
+            }
+        }
+        //
         for (IBlock block : doActionResult) {
             messagingTemplate.convertAndSend("/game/updateBlock", block);
         }
+        return player.getScore();
     }
 
     private Player getPlayerFromSecurity(HttpServletRequest request) {
@@ -68,6 +88,11 @@ public class GameController {
                 .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
         Player player = (Player) securityContextImpl.getAuthentication().getPrincipal();
         return player;
+    }
+
+    private void updateScore(Player player, long deltaScore) {
+        player.setScore(player.getScore() + deltaScore);
+        playerService.updateScoreById(player.getId(), player.getScore());
     }
 
     @RequestMapping("/getChunk")
