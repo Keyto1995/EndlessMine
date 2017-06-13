@@ -134,6 +134,27 @@ E-mail: keyto1995@outlook.com
                 </table>
             </div>
         </div>
+
+        <div id="charts-list" class="fix-top-right well well-sm">
+            <table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th>排名</th>
+                        <th>玩家</th>
+                        <th>分数</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        is="charts-item"
+                        v-for="(player, index) in charts"
+                        v-bind:player="player"
+                        v-bind:index="index+1"
+                        ></tr>
+                </tbody>
+            </table>
+        </div>
+
         <div class="fix-bottom">
             <div class="col-md-3 well well-sm">  
                 <div class="textarea" id="textareaValidate"></div>
@@ -162,6 +183,7 @@ E-mail: keyto1995@outlook.com
         <script type="text/javascript">
                         $(function () {
                             connect();
+                            connectCharts();
                             $("#draggable")
                                     .bind("contextmenu", function (event) {
                                         return false;
@@ -301,6 +323,50 @@ E-mail: keyto1995@outlook.com
                                 }
                             }
                         });
+
+                        Vue.component('charts-item', {
+                            template: '\
+                <tr>\
+                    <td>\n\
+                        {{ index }}\
+                    </td>\
+                    <td>\
+                        {{ player.name }}\
+                    </td>\
+                    <td>\
+                        {{ player.score }}\
+                    </td>\
+                </tr>\
+                ',
+                            props: ['player', 'index']
+                        });
+                        var charts = new Vue({
+                            el: '#charts-list',
+                            data: {
+                                charts: [
+                                    {name: "aa", score: "12"},
+                                    {name: "bb", score: "11"}
+                                ]
+                            }
+                        });
+                        var chartsClient = null;
+                        function connectCharts() {
+                            var socket = new SockJS("/endpointCharts");
+                            chartsClient = Stomp.over(socket);
+                            chartsClient.connect({}, function (frame) {
+                                console.log('Connected: ' + frame);
+                                chartsClient.subscribe('/charts/updateList', function (theCharts) {
+                                    var json = JSON.parse(theCharts.body);
+                                    charts._data.charts = json;
+                                });
+                            });
+                        }
+                        function disconnectCharts() {
+                            if (chartsClient !== null) {
+                                chartsClient.disconnect();
+                            }
+                        }
+
                         function doMousedown(event) {
                             var mouseClick;
                             if (3 === event.which) {//右键为3
