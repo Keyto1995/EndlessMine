@@ -18,6 +18,7 @@
  */
 package keyto.endlessmine.dbservice.service;
 
+import java.util.List;
 import keyto.endlessmine.dbservice.entity.Player;
 import keyto.endlessmine.dbservice.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,11 @@ public class PlayerService implements UserDetailsService {
     public int updateScoreById(long id, long score) {
         int updateScoreById = playerRepository.updateScoreById(id, score);
         return updateScoreById;
+    }
+    
+    public List<Player> findTop10ByOrderByScoreDesc(){
+        List<Player> findTop10ByOrderByScoreDesc = playerRepository.findTop10ByOrderByScoreDesc();
+        return findTop10ByOrderByScoreDesc;
     }
 
     @Override

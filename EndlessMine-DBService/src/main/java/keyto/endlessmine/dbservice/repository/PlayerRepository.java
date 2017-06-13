@@ -18,6 +18,7 @@
  */
 package keyto.endlessmine.dbservice.repository;
 
+import java.util.List;
 import keyto.endlessmine.dbservice.entity.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -57,4 +58,9 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     @Transactional
     @Query("UPDATE Player p SET p.score = :score WHERE p.id = :id")
     int updateScoreById(@Param("id") long id, @Param("score") long score);
+    
+    @Query("FROM Player AS p ORDER BY p.score desc")
+    List<Player> find9OrderByScore();
+    
+    List<Player> findTop10ByOrderByScoreDesc();
 }

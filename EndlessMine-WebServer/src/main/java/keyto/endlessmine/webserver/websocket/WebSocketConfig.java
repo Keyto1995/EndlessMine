@@ -35,11 +35,12 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/endpointGame").withSockJS();
+        registry.addEndpoint("/endpointCharts").withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/worldchat", "/game");
+        registry.enableSimpleBroker("/worldchat", "/game","/charts");
     }
 
 }

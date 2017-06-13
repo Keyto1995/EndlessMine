@@ -18,6 +18,7 @@
  */
 package keyto.endlessmine.webserver.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import keyto.endlessmine.common.block.IBlock;
@@ -30,6 +31,7 @@ import keyto.endlessmine.dbservice.service.PlayerService;
 import keyto.endlessmine.gameserver.manager.BlockManager;
 import keyto.endlessmine.webserver.domain.DoActionMessage;
 import keyto.endlessmine.webserver.domain.GetChunkMessage;
+import keyto.endlessmine.webserver.domain.SafePlayer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextImpl;
@@ -80,6 +82,8 @@ public class GameController {
         for (IBlock block : doActionResult) {
             messagingTemplate.convertAndSend("/game/updateBlock", block);
         }
+
+        updateCharts();
         return player.getScore();
     }
 
@@ -101,5 +105,20 @@ public class GameController {
         ChunkPoint chunkPoint = new ChunkPoint(getChunkMessage.getChunkPointX(), getChunkMessage.getChunkPointY());
 
         return blockManager.getEntireBlockInfosOfChunk(chunkPoint);
+    }
+
+    @RequestMapping("/updateCharts")
+    @ResponseBody
+    public List<SafePlayer> updateCharts() {
+        List<Player> findTop10ByOrderByScoreDesc = playerService.findTop10ByOrderByScoreDesc();
+        List<SafePlayer> safeResult = new ArrayList<>();
+        for (Player player : findTop10ByOrderByScoreDesc) {
+            SafePlayer sp = new SafePlayer();
+            sp.setName(player.getName());
+            sp.setScore(player.getScore());
+            safeResult.add(sp);
+        }
+        messagingTemplate.convertAndSend("/charts/updateList", safeResult);
+        return safeResult;
     }
 }

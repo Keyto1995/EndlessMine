@@ -18,9 +18,13 @@
  */
 package keyto.endlessmine.webserver.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import keyto.endlessmine.dbservice.entity.Player;
+import keyto.endlessmine.dbservice.service.PlayerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -30,8 +34,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/charts")
 public class ChartsController {
 
-    @RequestMapping("")
-    public void charts(HttpServletRequest request) {
+    @Autowired
+    PlayerService playerService;
 
+    @RequestMapping("")
+    public ModelAndView charts() {
+        List<Player> findTop10ByOrderByScoreDesc = playerService.findTop10ByOrderByScoreDesc();
+        ModelAndView mv = new ModelAndView("charts");
+        mv.addObject("Top10List", findTop10ByOrderByScoreDesc);
+        return mv;
     }
+
 }

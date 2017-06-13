@@ -11,6 +11,7 @@
         "is": {},
         "th:fragment": {},
         "th:utext": {},
+        "th:each": {},
         "v-model": {},
         "th:if": {},
         "v-on:click": {},
