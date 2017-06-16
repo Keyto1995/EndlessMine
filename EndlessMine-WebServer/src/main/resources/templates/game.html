@@ -144,7 +144,7 @@ E-mail: keyto1995@outlook.com
                         <th>分数</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody style="color: red">
                     <tr
                         is="charts-item"
                         v-for="(player, index) in charts"
@@ -344,9 +344,23 @@ E-mail: keyto1995@outlook.com
                             el: '#charts-list',
                             data: {
                                 charts: [
-                                    {name: "aa", score: "12"},
-                                    {name: "bb", score: "11"}
+                                    {name: "--", score: "--"},
+                                    {name: "--", score: "--"}
                                 ]
+                            },
+                            methods: {
+                                updateCharts: function () {
+                                    var url = "/game/updateCharts";
+                                    var body = {
+                                    };
+                                    var _self = this;
+                                    $.getJSON(url, body, function (data) {
+                                        _self.charts = data;
+                                    });
+                                }
+                            },
+                            mounted: function () {
+                                this.updateCharts();
                             }
                         });
                         var chartsClient = null;
