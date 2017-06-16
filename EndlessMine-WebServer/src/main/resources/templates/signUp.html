@@ -98,6 +98,10 @@ E-mail: keyto1995@outlook.com
 
                     function checkRepeat() {
                         var password = $("#password").val();
+                        if (password === "") {
+                            alert("请输入注册密码");
+                            return false;
+                        }
                         var rpassword = $("#rpassword").val();
                         if (password !== rpassword) {
                             alert("两次输入密码不同！");
